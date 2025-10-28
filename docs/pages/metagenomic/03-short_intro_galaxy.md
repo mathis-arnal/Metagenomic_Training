@@ -31,6 +31,21 @@ subtopic: first
 priority: 2
 ---
 
+!!! info "Lesson overview"
+    **Teaching:** 30 min  
+    **Exercises:** 10 min  
+
+    **Questions**
+    - How to get started in Galaxy ?
+
+    **Objectives**
+    - Learn how to upload a file
+    - Learn how to use a tool
+    - Learn how to view results
+    - Learn how to view histories
+    - Learn how to extract and run a workflow
+    - Learn how to share a history
+
 # Overview
 
 * This is a short introduction to the Galaxy user interface - the web page that you interact with.
@@ -46,7 +61,7 @@ In Galaxy, *server* and *instance* are often used interchangeably. These terms b
 
 !!! example "Log in to Galaxy"
     1. Open your favorite browser (Chrome, Safari, Edge or Firefox, not Internet Explorer!)
-    2. Browse to your Galaxy instance
+    2. Browse to your Galaxy instance ([usegalaxy.org.au](https://usegalaxy.org.au/))
     3. Log in or register
 
     ![Screenshot of Galaxy Australia with the register or login button highlighted]( ../fig/galaxy/galaxy-login.png)
@@ -54,9 +69,7 @@ In Galaxy, *server* and *instance* are often used interchangeably. These terms b
     !!! comment "Different Galaxy servers"
         This is an image of Galaxy Australia, located at [usegalaxy.org.au](https://usegalaxy.org.au/)
 
-        The particular Galaxy server that you are using may look slightly different and have a different web address.
-
-        You can also find more possible Galaxy servers at the top of this tutorial in **Available on these Galaxies**
+        You can also find more possible Galaxy servers depending on your region.
 
 The Galaxy homepage is divided into four sections (panels):
 * The Activity Bar on the left: _This is where you will navigate to the resources in Galaxy (Tools, Workflows, Histories etc.)_
@@ -214,3 +227,18 @@ Well done! You have completed the short introduction to Galaxy:
 * Used a tool
 * Viewed results
 * Ran a workflow
+
+!!! Success "Key Points"
+    - The Galaxy interface has an activity bar on the left, a tool (or other activated)
+    panel next to it (if expanded), viewing pane in the middle, and a history of your
+    data analysis on the right.
+    - You can create a new history for each analysis. All your histories are saved.
+    - 'To get data into Galaxy, you can upload a file by pasting in a web address. There
+    are other ways to get data into Galaxy (not covered in this tutorial): you can upload
+    a file from your computer, and you can import an entire history.'
+    - Choose a tool and change any settings for your analysis.
+    - Run the tool. The output files will be saved at the top of your history.
+    - View the output files by clicking the eye icon.
+    - View all your histories and move files between them. Switch to a different history.
+    - Log out of your Galaxy server. When you log back in (to the same server), your histories
+    will all be there.

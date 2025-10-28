@@ -14,6 +14,16 @@ keypoints:
 - "`for` loops let you perform the same operations on multiple files with a single command."
 
 ---
+!!! info "Lesson overview"
+    **Teaching:** 15 min  
+    **Exercises:** 15 min  
+
+    **Questions**
+    - What is the output of Next Generation Sequencing ?
+
+    **Objectives**
+    - Explain how a FASTQ file encodes per-base quality scores.
+
 
 ## Bioinformatic workflows
 

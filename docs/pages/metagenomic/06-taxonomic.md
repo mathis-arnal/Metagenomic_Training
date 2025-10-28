@@ -14,6 +14,19 @@ keypoints:
 - "Taxonomic assignment can be done using Kraken."
 - "Krona and Pavian are web-based tools to visualize the assigned taxa."
 ---
+
+!!! info "Lesson overview"
+    **Teaching:** 15 min  
+    **Exercises:** 15 min  
+
+    **Questions**
+    - How can I know to which taxa my sequences belong?
+
+    **Objectives**
+    - Understand how taxonomic assignment works.
+    - Use Kraken to assign taxonomies to reads and contigs.
+    - Use Bracken to estimate the taxomonic abundance.
+
 # Taxonomic Profiling
 
 The investigation of microorganisms present at a specific site and their relative abundance is also called “microbial community profiling”. The main objective is to identify the microorganisms that are present within the given sample. This can be achieved for all known microbes, where the DNA sequence specific for a certain species is known.
@@ -102,6 +115,10 @@ How it works :
 </a>
 <em>Figure 2. Uses of Bracken on true abundace reestimation <em/>
 
-
+!!! Success "Key Points"
+    - A database with previously gathered knowledge (genomes) is needed for taxonomic assignment.
+    - Taxonomic assignment can be done using Kraken.
+    - Taxonomic Abundace can be estimated using Bracken.
+    - Krona and Pavian are web-based tools to visualize the assigned taxa.
 
   

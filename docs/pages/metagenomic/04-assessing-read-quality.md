@@ -13,6 +13,16 @@ keypoints:
 
 ---
 
+!!! info "Lesson overview"
+    **Teaching:** 30 min  
+    **Exercises:** 20 min  
+
+    **Questions**
+    - "How can I describe the quality of my data?"
+
+    **Objectives**
+    - Interpret a FastQC plot summarizing per-base quality across all reads.
+
 
 ## Assessing quality using FastQC
 
@@ -105,5 +115,6 @@ to use. If you choose the wrong encoding, you run the risk of throwing away good
 (even worse) not throwing away bad reads!
 
 
-
-
+!!! Success "Key Points"
+    - "It is important to know the quality of our data to make decisions in the subsequent steps."
+    - "FastQC is a program that allows us to know the quality of FASTQ files."

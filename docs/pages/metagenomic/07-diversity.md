@@ -14,6 +14,17 @@ keypoints:
 math: true
 ---
 
+!!! info "Lesson overview"
+    **Teaching:** 15 min  
+    **Exercises:** 15 min  
+
+    **Questions**
+    - "How can we measure diversity within a sample ?"
+    - "How can we measure diversity between samples ?"
+
+    **Objectives**
+    - "Understand and compute alpha and beta diversity."
+
 
 ## First plunge into diversity
 
@@ -201,3 +212,8 @@ https://training.galaxyproject.org/training-material/topics/microbiome/tutorials
 >> species and other the evenness of the OTUs. 
 >> To assess the impact of low abundance lineages, one alpha diversity index widely used is the Chao1 index.
                              
+
+!!! Success "Key Points"
+    - Alpha diversity measures the intra-sample diversity.
+    - Beta diversity measures the inter-sample diversity.
+    - Different indexes capture different aspects of diversity

@@ -16,6 +16,16 @@ keypoints:
 - "Automate repetitive workflows using for loops."
 ---
 
+!!! info "Lesson overview"
+    **Teaching:** 15 min  
+    **Exercises:** 15 min  
+
+    **Questions**
+    - How can we get rid of sequence data that does not meet our quality standards?
+
+    **Objectives**
+    - Clean FASTQ reads using Trimmomatic.
+
 ## Cleaning reads
 
 In the last episode, we took a high-level look at the quality
@@ -214,4 +224,9 @@ control process!
   did pretty well, though, and its performance is good enough for our workflow.
 
 
-Now that the Quality Control Process step is done, we can move on to the Taxoxomic assignement of our samples.   
+Now that the Quality Control Process step is done, we can move on to the **Taxoxomic assignement of our samples**.   
+
+
+!!! Success "Key Points"
+    - Use Trimmomatic to get rid of adapters and low-quality bases or reads.
+    - Rerun the FastQC Analysis to check if our sequences have been succesfully filtered and trimmed.
