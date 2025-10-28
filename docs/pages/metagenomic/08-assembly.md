@@ -18,6 +18,18 @@ keypoints:
 - "Assemblers take FastQ files as input and produce a Fasta file as output."
 ---
 
+!!! info "Lesson overview"
+    **Teaching:** 15 min  
+    **Exercises:** 15 min  
+
+    **Questions**
+    - Why should genomic data be assembled?
+    - What is the difference between reads and contigs?
+    - How can we assemble a metagenome?
+
+    **Objectives**
+    - "Understand what an assembly is." 
+
 # Introduction
 
 Metagenomics involves the extraction, sequencing and analysis of combined genomic DNA from entire microbiome samples. It includes then DNA from many different organisms, with different taxonomic background.
@@ -95,3 +107,9 @@ Once assembly is done, it is important to check its quality.
 We can use the tool named QUAST (QUality ASsessment Tool). The tool evaluates genome assemblies by computing various metrics.
 Since the assembly may take some time to run, you can directly upload the  
 
+!!! Success "Key Points"
+    - Assembly groups reads into contigs.
+    - De Bruijn Graphs use Kmers to assembly cleaned reads.
+    - MetaSPAdes is a metagenomes assembler.
+    - Assemblers take FastQ files as input and produce a Fasta file as output.
+    - We can check the quality of your assembly using QUAST
