@@ -49,7 +49,7 @@ In Galaxy, *server* and *instance* are often used interchangeably. These terms b
     2. Browse to your Galaxy instance
     3. Log in or register
 
-    ![Screenshot of Galaxy Australia with the register or login button highlighted]( images/00/galaxy-login.png)
+    ![Screenshot of Galaxy Australia with the register or login button highlighted]( ../fig/galaxy/galaxy-login.png)
 
     !!! comment "Different Galaxy servers"
         This is an image of Galaxy Australia, located at [usegalaxy.org.au](https://usegalaxy.org.au/)
@@ -64,7 +64,7 @@ The Galaxy homepage is divided into four sections (panels):
 * Viewing panel in the middle: _The main area for context for your analysis_
 * History of analysis and files on the right: _Shows your "current" history; i.e.: Where any new files for your analysis will be stored_
 
-![Screenshot of the Galaxy interface with aforementioned structure]( images/00/galaxy_interface.png)
+![Screenshot of the Galaxy interface with aforementioned structure]( ../fig/galaxy/galaxy_interface.png)
 
 The first time you use Galaxy, there will be no files in your history panel.
 
@@ -78,7 +78,7 @@ Your "History" is in the panel at the right. It is a record of the actions you h
     1. Go to the **History** panel (on the right)
     2. Click ✏️ (**Edit**) next to the history name (which by default is "Unnamed history")
 
-        ![Screenshot of the galaxy interface with the history name being edited, it currently reads "Unnamed history", the default value. An input box is below it.]( images/00/rename_history.png)
+        ![Screenshot of the galaxy interface with the history name being edited, it currently reads "Unnamed history", the default value. An input box is below it.]( ../fig/galaxy/rename_history.png)
 
     3. Type in a new name, for example, "Galaxy Tutorial"
     4. Click **Save**
@@ -91,7 +91,7 @@ Your "History" is in the panel at the right. It is a record of the actions you h
 !!! example "Upload a file from URL"
     1. At the top of the **Activity Bar**, click the  **Upload** activity
 
-        ![upload data button shown in the galaxy interface]( images/00/upload-data.png)
+        ![upload data button shown in the galaxy interface]( ../fig/galaxy/upload-data.png)
 
         This brings up a box:
 
@@ -116,13 +116,13 @@ the gray (preparing/queued) and yellow (running) states to become green (success
 !!! example "View dataset contents"
     1. Click the 👁️ (eye) icon next to the dataset name, to look at the file content
 
-    ![galaxy history view showing a single dataset mutant_r1.fastq. Display link is being hovered.]( images/00/eye-icon.png){:width="320px"}
+    ![galaxy history view showing a single dataset mutant_r1.fastq. Display link is being hovered.]( ../fig/galaxy/eye-icon.png){:width="320px"}
 
 The contents of the file will be displayed in the central Galaxy panel. If the dataset is large, you will see a warning message which explains that only the first megabyte is shown.
 
 This file contains DNA sequencing reads from a bacteria, in FASTQ format:
 
-![preview of a fastq file showing the 4 line structure described in fig caption. 3 reads are shown.]( images/00/fastq.png "A FastQ file has four lines per record: the record identifier (`@mutant-no_snps.gff-24960/`), the sequence (`AATG…`), the plus character (`+`), and then the quality scores for the sequence (`5??A…`)."){:width="620px"}
+![preview of a fastq file showing the 4 line structure described in fig caption. 3 reads are shown.]( ../fig/galaxy/fastq.png "A FastQ file has four lines per record: the record identifier (`@mutant-no_snps.gff-24960/`), the sequence (`AATG…`), the plus character (`+`), and then the quality scores for the sequence (`5??A…`)."){:width="620px"}
 
 ## Use a tool
 
@@ -130,7 +130,7 @@ Let's look at the quality of the reads in this file.
 
 1. Type **FastQE** in the tools panel search box (top)
 2. Click the tool (**FASTQE** visualize fastqfiles with emoji's)
-![fastqe click on the tool]( images/00/fastqe-click.png){:width="620px"}
+![fastqe click on the tool]( ../fig/galaxy/fastqe-click.png){:width="620px"}
 The tool will be displayed in the central Galaxy panel.
 
 3. Select the following parameters:
@@ -139,7 +139,7 @@ The tool will be displayed in the central Galaxy panel.
 4. Click **Run Tool**
 
 This tool will run and two one new output datasets will appear at the top of your history panel.
-![fastqe sucess]( images/00/fastqe-success.png){:width="620px"}
+![fastqe sucess]( ../fig/galaxy/fastqe-success.png){:width="620px"}
 ## View results
 
 We will now look at the output dataset called *FastQE on data 1*.

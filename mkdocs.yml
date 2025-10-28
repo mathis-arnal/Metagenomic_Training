@@ -1,9 +1,8 @@
 # Project information
 site_name: 'Metagenomics Workshop, using Galaxy'
-site_author: 'Jacques Dainat et al.'
-site_url: 'https://Juke34.github.io/workshop-reproducible-research/'
-site_description: Workshop on Tools for Reproducible Research
-
+site_author: 'Mathis Arnal'
+site_url: 'https://mathis-arnal.github.io/Metagenomic_Training/'
+site_description: Workshop on Metagenomic
 # Repository
 repo_name: 'mathis-arnal/Metagenomic_Training'
 repo_url: 'https://github.com/mathis-arnal/Metagenomic_Training.git'
@@ -97,15 +96,17 @@ nav:
     - Tutorials:
         - Metagenomic :
           #- Introduction: pages/metagenomic/00-meta_introduction.md
+          
           - Starting a metagenomic project: pages/metagenomic/01-background-metadata.md
-          - What is a fastq file ?: docs/pages/metagenomic/02-fastq-desc.md
-          - Short intro to Galaxy: pages/galaxy/00-short_intro_galaxy.md
-          - Assessing Read Quality:   pages/metagenomic/03-assessing-read-quality.md
-          - Trimming and Filtering: pages/metagenomic/04-trimming-filtering.md
-          - Taxonomy Profiling:   pages/metagenomic/05-taxonomic.md
-          - Taxonomic Diversity: pages/metagenomic/06-diversity.md
-        - Galaxy:
-          - Short intro to Galaxy: pages/galaxy/00-short_intro_galaxy.md
+          - What is a fastq file ?: pages/metagenomic/02-fastq-desc.md
+          - Short intro to Galaxy: pages/metagenomic/03-short_intro_galaxy.md
+          - Assessing Read Quality:   pages/metagenomic/04-assessing-read-quality.md
+          - Trimming and Filtering: pages/metagenomic/05-trimming-filtering.md
+          - Taxonomy Profiling:  pages/metagenomic/06-taxonomic.md
+          - Taxonomic Diversity: pages/metagenomic/07-diversity.md
+          - Assembly: pages/metagenomic/08-assembly.md
+        # - Galaxy:
+        #   - Short intro to Galaxy: pages/galaxy/00-short_intro_galaxy.md
           # - Taxonomic profiling: pages/galaxy/02-taxonomy-galaxy.md          
         # - Introduction: pages/introduction/introduction.md
         # - Data Management: pages/data-management/data-management.md

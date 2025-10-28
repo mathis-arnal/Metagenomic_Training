@@ -143,7 +143,7 @@ Diversity β measures how different two or more communities are, either in their
 
 | Variable             |  Definition |   
 :-------------------------:|:-------------------------: 
-$ BC_{ij} = 1 - \frac{2C_{ij}}{S_{i} + S_{j}} |  Definition
+$ BC_{ij} = 1 - \frac{2C_{ij}}{S_{i} + S_{j}} $|  Definition
 $  C_{ij} $ | the sum of the absolute differences in abundances between corresponding species in samples i
  and j
 $  S_{i} $ | the total abundance or sum of species abundances in sample i
