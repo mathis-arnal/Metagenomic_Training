@@ -5,10 +5,12 @@
     **Exercises:** 15 min  
 
     **Questions**
+
     - How do you plan a metagenomics experiment?
     - How does a metagenomics project look like?
 
     **Objectives**
+
     - Learn the differences between shotgun and metabarcoding (amplicon metagenomics) techniques.
     - Understand the importance of metadata.
     - Familiarize yourself with the Cuatro Ciénegas experiment.
@@ -24,6 +26,7 @@ characteristics of niches (* e.g.,*, the human gut or the ocean floor).
 
 Since metagenomes are mixtures of sequences that belong to different species, 
 a metagenomic workflow is designed to answer two questions: 
+
 1. What species are represented in the sample?
 2. What are they capable of doing?
 
@@ -36,6 +39,7 @@ know what questions we want to answer.
 
 ## Shotgun and amplicon
 There are two paths to obtain information from a complex sample: 
+
 1. **Shotgun Metagenomics**  
 2. **Metabarcoding**. 
 
@@ -179,30 +183,32 @@ changed when the bacterial community underwent the treatment.
 
 Throughout the lesson, we will use the first four 
 characters of the `File names (alias)` to identify the data files 
-corresponding to a sample. We are going to use the first two samples (JC1A and JP4D) for most of the lesson and the third one (JP41) for one exercise at the end.
+corresponding to a sample. We are going to use the first two samples (JC1A and JP4D).
 
 |SRA Accession | File name (alias)    | Sample name in the lesson | Treatment        |
 |--------------|----------------------|---------------------------|------------------| 
 | ERS1949784   | JC1ASEDIMENT120627		| JC1A                      | Control mesocosm |
 | ERS1949801   | JP4DASH2120627WATERAMPRESIZED	| JP4D            | Fertilized pond  |
-| ERS1949771   | JP4110514WATERRESIZE		| JP41                      | Unenriched pond  |
 
 The results of this study, raw sequences, and metadata have 
 been submitted to the NCBI Sequence Read Archive (SRA) and stored in the BioProject [PRJEB22811](https://www.ncbi.nlm.nih.gov/sra/?term=PRJEB22811). 
 
-SRA database is interconnected to the European Nucleotide Archive, which mean that you can access to the data on the ENA Webiste aswell:
- Here is the link to JC1A: https://www.ebi.ac.uk/ena/browser/view/SAMEA104324806?show=reads .
- Here is the link to JP4D: https://www.ebi.ac.uk/ena/browser/view/ERS1949801?dataType=SAMPLE&show=reads . 
+SRA database is interconnected to the European Nucleotide Archive, which mean that you can access to the data on the ENA Website aswell:
 
- You can install the reads of JC1A and JP4D using these links: 
-https://zenodo.org/record/7871630/files/JC1A_R1.fastqsanger.gz
-https://zenodo.org/record/7871630/files/JC1A_R2.fastqsanger.gz
-https://zenodo.org/record/7871630/files/JP4D_R1.fastqsanger.gz
-https://zenodo.org/record/7871630/files/JP4D_R2.fastqsanger.gz 
+ - [Here is the link to JC1A](https://www.ebi.ac.uk/ena/browser/view/SAMEA104324806?show=reads)
+ - [Here is the link to JP4D](https://www.ebi.ac.uk/ena/browser/view/ERS1949801?dataType=SAMPLE&show=reads)  
+
+ You can install the reads of JC1A and JP4D using these links ( R1 means Read 1 and R2 means Read 2): 
+
+- [Here is the link to JC1A_R1](https://zenodo.org/record/7871630/files/JC1A_R1.fastqsanger.gz)
+- [Here is the link to JC1A_R2](https://zenodo.org/record/7871630/files/JC1A_R2.fastqsanger.gz)
+- [Here is the link to JP4D_R1](https://zenodo.org/record/7871630/files/JP4D_R1.fastqsanger.gz)
+- [Here is the link to JP4D_R2](https://zenodo.org/record/7871630/files/JP4D_R2.fastqsanger.gz)
 
 ## Other metagenomic databases
+
  The NCBI SRA is not the only repository for metagenomic information. There are other public metagenomic databases such as [MG-RAST](https://www.mg-rast.org/index.html?stay=1), [MGnify](https://www.ebi.ac.uk/metagenomics/), [Marine Metagenomics Portal](https://mmp.sfb.uit.no/), [Terrestrial Metagenome DB](https://webapp.ufz.de/tmdb/) and the [GM Repo](https://gmrepo.humangut.info/home).   
-{: .callout}
+
 
 Each database requires certain metadata linked with the data. As an example, when `JP4D.fasta` is uploaded to 
 mg-RAST the associated metadata looks like this:

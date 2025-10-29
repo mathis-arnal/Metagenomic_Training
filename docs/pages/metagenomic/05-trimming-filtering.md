@@ -26,7 +26,7 @@ keypoints:
     **Objectives**
     - Clean FASTQ reads using Trimmomatic.
 
-## Cleaning reads
+## Why Should I clean reads ? 
 
 In the last episode, we took a high-level look at the quality
 of each of our samples using `FastQC`. We visualized per-base quality
@@ -40,66 +40,30 @@ quality metrics fail, which may or may not be a problem for your
 downstream application. For our workflow, we will remove some low-quality sequences to reduce our false-positive rate due to 
 sequencing errors.
 
+Illumina sequencing data can contain:
+
+| Problem | What it is | Why it’s bad |
+|----------|-------------|--------------|
+| **Adapters** | Short artificial sequences added during library preparation | Can look like real DNA and confuse aligners or assemblers |
+| **Low-quality bases** | The ends of reads often have unreliable base calls (low Phred scores) | Introduces errors |
+| **Very short reads** | After trimming, some reads are too short to be useful | Adds noise |
+
+
 To accomplish this, we will use a program called
 [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic). This 
 useful tool filters poor quality reads and trims poor quality bases 
 from the specified samples.
+Think of it like a “car wash” for raw sequencing reads 🚿 — it removes everything dirty or low-quality that could confuse later steps.
+It “cleans” the data before any downstream analysis (assembly, mapping, classification, etc.).
 
-## Trimmomatic options
+# Trimmomatic options
 
 Trimmomatic has a variety of options to accomplish its task. 
-If we run the following command, we can see some of its options:
-
-~~~
-$ trimmomatic
-~~~
-{: .bash}
-
-Which will give you the following output:
-~~~
-Usage: 
-       PE [-version] [-threads <threads>] [-phred33|-phred64] [-trimlog <trimLogFile>] [-summary <statsSummaryFile>] [-quiet] [-validatePairs] [-basein <inputBase> | <inputFile1> <inputFile2>] [-baseout <outputBase> | <outputFile1P> <outputFile1U> <outputFile2P> <outputFile2U>] <trimmer1>...
-   or: 
-       SE [-version] [-threads <threads>] [-phred33|-phred64] [-trimlog <trimLogFile>] [-summary <statsSummaryFile>] [-quiet] <inputFile> <outputFile> <trimmer1>...
-   or: 
-       -version
-~~~
-{: .output}
-
-This output shows that we must first specify whether we have paired-end (`PE`) or single-end (`SE`) reads. Next, we will specify with which flags we 
-want to run Trimmomatic. For example, you can specify `threads` 
-to indicate the number of processors on your computer that you want Trimmomatic 
-to use. In most cases, using multiple threads(processors) can help to run the 
-trimming faster. These flags are unnecessary, but they can give you more control
-over the command. The flags are followed by **positional arguments**, meaning 
-the order in which you specify them is essential. In paired-end mode, Trimmomatic 
-expects the two input files and then the names of the output files. These files are 
-described below. While in single-end mode, Trimmomatic will expect one file 
-as input, after which you can enter the optional settings and, lastly, the 
-name of the output file.
-
-| Option    | Meaning |  
-| ------- | ---------- |  
-|  \<inputFile1>  | input forward reads to be trimmed. Typically the file name will contain an `_1` or `_R1` in the name.|  
-| \<inputFile2> | Input reverse reads to be trimmed. Typically the file name will contain an `_2` or `_R2` in the name.|  
-|  \<outputFile1P> | Output file that contains surviving pairs from the `_1` file. |  
-|  \<outputFile1U> | Output file that contains orphaned reads from the `_1` file. |  
-|  \<outputFile2P> | Output file that contains surviving pairs from the `_2` file.|  
-|  \<outputFile2U> | Output file that contains orphaned reads from the `_2` file.|  
-  
-The last thing Trimmomatic expects to see is the trimming parameters:
-
-| step   | meaning |  
-| ------- | ---------- |  
-| `ILLUMINACLIP` | Perform adapter removal. |  
-| `SLIDINGWINDOW` | Perform sliding window trimming, cutting once the average quality within the window falls below a threshold. |  
-| `LEADING`  | Cut bases off the start of a read if below a threshold quality.  |  
-|  `TRAILING` |  Cut bases off the end of a read if below a threshold quality. |  
-| `CROP`  |  Cut the read to a specified length. |  
-|  `HEADCROP` |  Cut the specified number of bases from the start of the read. |  
-| `MINLEN`  |  Drop an entire read if it is below a specified length. |  
-|  `TOPHRED33` | Convert quality scores to Phred-33.  |  
-|  `TOPHRED64` |  Convert quality scores to Phred-64. |  
+We  will follow a classic stepwise cleaning process:
+1. Remove adapters
+2. Remove bad-quality bases at the ends
+3. Remove bad-quality sections in the middle
+4. Throw away reads that are now too short 
 
 Understanding the steps you are using to
 clean your data is essential. We will use only a few options and trimming steps in our
@@ -110,118 +74,172 @@ and options, see [the Trimmomatic manual](http://www.usadellab.org/cms/uploads/s
   <img src="../fig/03-03-01.png" alt="Diagram showing the parts of the sequence that are reviewed by each parameter and the parts that are maintained or discarded at the end of the process. The Illuminaclip parameter removes the adapters, and the SlidingWindow scans the read by sections and removes a part of the read below the quality threshold. We remain with a trimmed read that has a valid quality." />
 </a>
 
-However, a complete command for Trimmomatic will look something like the command below. This command is an example and will not work, as we do not have the files it refers to:
+## 1. Remove adapters
 
-~~~
-$ trimmomatic PE -threads 4 SRR_1056_1.fastq SRR_1056_2.fastq \
-              SRR_1056_1.trimmed.fastq SRR_1056_1un.trimmed.fastq \
-              SRR_1056_2.trimmed.fastq SRR_1056_2un.trimmed.fastq \
-              ILLUMINACLIP:SRR_adapters.fa SLIDINGWINDOW:4:20
-~~~
-{: .bash}
+Before removing adapters, we need to know which one you used !
+Choosing the correct adapter sequence to trim depends on how your Illumina library was prepared. Knowing the sequencing platform determines expected adapter kit. In our case, we know that the data has been sequenced with Illumina MiSeq (Check the header of the reads). TruSeq is the most common, it is the standard Illumina DNA/RNA libraries, Hence, we will choose **TruSeq3**.
 
-In this example, we have told Trimmomatic:
+## 2. Remove bad-quality bases at the ends
 
-| code   | meaning |
-| ------- | ---------- |
-| `PE` | that it will be taking a paired-end file as input |
-| `-threads 4` | to use four computing threads to run (this will speed up our run) |
-| `SRR_1056_1.fastq` | the first input file name. Forward |
-| `SRR_1056_2.fastq` | the second input file name. Reverse |
-| `SRR_1056_1.trimmed.fastq` | the output file for surviving pairs from the `_1` file |
-| `SRR_1056_1un.trimmed.fastq` | the output file for orphaned reads from the `_1` file |
-| `SRR_1056_2.trimmed.fastq` | the output file for surviving pairs from the `_2` file |
-| `SRR_1056_2un.trimmed.fastq` | the output file for orphaned reads from the `_2` file |
-| `ILLUMINACLIP:SRR_adapters.fa`| to clip the Illumina adapters from the input file using the adapter sequences listed in `SRR_adapters.fa` |
-|`SLIDINGWINDOW:4:20` | to use a sliding window of size 4 that will remove bases if their Phred score is below 20 |
+As you saw in the fastQC HTML files, often the first and last bases are lower quality. Removing them improves overall read reliability.
+We will use :
+LEADING:<quality> → Remove low quality bases from the beginning. As long as a base has a value below this
+threshold <quality> the base is removed and the next base will be investigated
 
+TRAILING:<quality> → Remove low quality bases from the end. As long as a base has a value below this threshold
+<quality> the base is removed and the next base (which as trimmomatic is starting from the 3‟ prime end
+would be base preceding the just removed base) will be investigated.
+
+We will use a **threshold of 20**, so **LEADING:20** and **TRAILING:20**.
+
+## 3. Remove bad-quality sections in the middle
+
+To Remove bad-quality sections in the middle, we will use a Sliding window.  
+We will use the default parameter, **SLIDINGWINDOW:4:20**.  
+What does **SLIDINGWINDOW:4:20** mean ?
+
+
+4 is for the size of the window, and 20 is for the minimum average quality.
+Trimmomatic slides a window of 4 bases along each read, from left to right ( from 5' to 3'). It calculates the average quality score of those 4 bases.If that average quality drops below 20, Trimmomatic cuts off (trims) the read from that position onward — meaning it removes everything to the right, not just that small window.   
+
+If the window at positions 32–36 drops below a quality of 20:
+
+- Trimmomatic does not remove only those 4 bases.  
+- It removes everything from base 32 to the end of the read.  
+- The read becomes shorter — no blank space is left in the middle.  
+
+## 4. Throw away reads that are now too short 
+
+Finally, we will drop the reads shorter than a certain length.  
+We will use a **minimum read length of 100bp**, considering that shorter reads may result in fragmented assemblies.  
+Hence, we will use the parameters **MINLEN:100**.  
  
- 
-## Running Trimmomatic on Galaxy
+# Running Trimmomatic on Galaxy
 
-Now, we will run Trimmomatic on our data.
+Now that we understood the steps we are using to
+clean the reads, we will run Trimmomatic on our data.
 Instead of using a command, we are going to use Galaxy again !
 
+Based on the process we discussed earlier, we are going to use this steps :
 
-We are going to run Trimmomatic on one of our paired-end samples.
-First, we will do it with JP4D.
+| step   | meaning |  
+| ------- | ---------- |  
+| `ILLUMINACLIP` | Perform adapter removal. |  
+| `SLIDINGWINDOW` | Perform sliding window trimming, cutting once the average quality within the window falls below a threshold. |  
+| `LEADING`  | Cut bases off the start of a read if below a threshold quality.  |  
+|  `TRAILING` |  Cut bases off the end of a read if below a threshold quality. |  
+| `MINLEN`  |  Drop an entire read if it is below a specified length. |  
+
+
+We are going to run Trimmomatic on our collection **CCB_Study**
 
 ### Create a new history 
 First, let's create a new history, and name it "Trimming and Filtering"
-(Ajouter une image de creation d'history).
-Then using the History Multiview, we can move the fastq from the previous analysis (FastQC). (JP4D collection)
+
+![new-history-trimmomatic]( ../fig/galaxy/new-history-trimmomatic.png)
+
+Then using the History Multiview, we can move the collection from the previous analysis (FastQC) to the new history (CCB_Study).
+
+
+### Run Trimmomatic
+
 Then, we can type "Trimmomatic" inside the "Tools" .  
-
-
 While using FastQC, we saw that Universal adapters were present 
-in our samples. The adapter sequences came with the installation of 
-Trimmomatic and it is located in our current directory in the database  `TruSeq3`.
+in our samples.
 
-We will also use a sliding window of size 4 that will remove bases if their
-Phred score is below 20 (like in our example above). We will also
-discard any reads that do not have at least 25 bases remaining after
-this trimming step.
-(Put a picture of the parameters to use inside Trimmomatic)
+#### STEP 1: Choose the Adapter sequences to use
+
+As we said earlier, we have used TruSeq3 adapters during our library.  
+First, click **Yes** for **Perform initial ILLUMINACLIP step?**.  
+In our case, for **Adapter sequences to use** we will choose **TruSeq3 (paired-ended, for MiSeq and HiSeq)** .  
+Keep the default parameters  for the adapters trimming (2:30:10).
+
+#### STEP 2: Remove bad-quality bases at the ends
+
+In **1: Trimmomatic Operation**, select the option   
+**Cut bases off the start of a read, if below a threshold quality (LEADING)**  
+Set the **Minimum quality required to keep a base**  at **20**.  
+
+Click on the button **Insert Trimmomatic Operation**.  
+It will add a window named **2: Trimmomatic Operation**.  
+This is the second step in our cleaning process.  
+Select **Cut bases off the end of a read, if below a threshold quality (TRAILING)**  
+Set the **Minimum quality required to keep a base**  at **20**.  
+
+#### STEP 3: Choose the trimming sliding window
+
+Click again on the button **Insert Trimmomatic Operation**.  
+It will add a window named **3: Trimmomatic Operation**.  
+Select **Sliding window trimming (SLIDINGWINDOW)**.  
+Keep the default parameters :
+
+- Number of bases to average across : 4
+- Average quality required : 20
+
+#### STEP 4: Choose the trimming sliding window
+
+Click again on the button **Insert Trimmomatic Operation**.  
+It will add a window named **4: Trimmomatic Operation**.  
+Select **Drop reads below a specified length (MINLEN)**.  
+Set  **Minimum length of reads to be kept** to **100**.  
+
+#### Keep the log 
+
+For the button **Output trimlog file?**, type **yes**.
+
+It is a useful step, as we are going to look at this log to see the results of the process.
+
+#### Run the tools 
 
 Once you have selected all the good parameters, you can click on "Run".
-This command will take a few minutes to run.
-Open the output " Trimmomatic on collection X (log file)
+This command will take a few minutes to run, and you will see the ouput in your history.
 
-~~~
-TrimmomaticPE: Started with arguments:
- JP4D_R1.fastq.gz JP4D_R2.fastq.gz JP4D_R1.trim.fastq.gz JP4D_R1un.trim.fastq.gz JP4D_R2.trim.fastq.gz JP4D_R2un.trim.fastq.gz SLIDINGWINDOW:4:20 MINLEN:35 ILLUMINACLIP:TruSeq3-PE.fa:2:40:15
-Multiple cores found: Using 2 threads
-Using PrefixPair: 'TACACTCTTTCCCTACACGACGCTCTTCCGATCT' and 'GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT'
-ILLUMINACLIP: Using 1 prefix pairs, 0 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Quality encoding detected as phred33
-Input Read Pairs: 1123987 Both Surviving: 751427 (66.85%) Forward Only Surviving: 341434 (30.38%) Reverse Only Surviving: 11303 (1.01%) Dropped: 19823 (1.76%)
-TrimmomaticPE: Completed successfully
-~~~
-{: .output}
+## Results
 
-> ## Exercise 1: What did Trimmomatic do?
->
-> Use the output from your Trimmomatic command to answer the
-> following questions.
->
-> 1) What percent of reads did we discard from our sample?  
-> 2) What percent of reads did we keep both pairs?
->
->> ## Solution
->> 1) 1.76%    
->> 2) 66.85%
-> {: .solution}
-{: .challenge}
+Some of the output files are also FASTQ files.
 
-You may have noticed that Trimmomatic automatically detected the
-quality encoding of our sample (phred33). It is always a good idea to
-double-check this or manually enter the quality encoding.
-
-## Exercise 2 
-The output files are also FASTQ files. 
-!!! question "Should the output fastqfile file be smaller or bigger than the input file"
-        ??? success "It should be smaller than our input file because we have removed reads."
+!!! question "Exercise  1: Should the output fastqfile file be smaller or bigger than the input file ?"
+    ??? success "Answer"
+        It should be smaller than our input file because we have removed reads.
 
 
-We have just successfully run Trimmomatic on one of our FASTQ files!
-Now we need to do it on our other sample : JC1A.
+!!! question "Exercise 2: What did Trimmomatic do?"
 
+    Open the output **Trimmomatic on collection X (log file)** 
+
+    1) What percent of reads did we discard from our sample?  
+    2) What percent of reads did we keep both pairs?
+
+    ??? Solution
+        1) TO DO    
+        2) TO DO
+
+!!! info "Quality Encoding"
+
+    You may have noticed that Trimmomatic automatically detected the
+    quality encoding of our sample (phred33). It is always a good idea to
+    double-check this or manually enter the quality encoding.
+
+# TO DO ( SPEAK ABOUT OUTPUTS)
+You should have data named "FASTQ    
+
+We have just successfully run Trimmomatic on our data collection !
 
 We have completed the trimming and filtering steps of our quality
 control process! 
 
-> ## Bonus Exercise: Quality test after trimming
->
-> Now that our samples have gone through quality control, they should perform
-> better on the quality tests run by FastQC. 
+!!! question "Bonus Exercise: Quality test after trimming"
 
- Rerun the FastQC Analysis to check if our sequences have been succesfully filtered and trimmed.
- 
-  After trimming and filtering, our overall quality is much higher, 
-  we have a distribution of sequence lengths, and more samples pass 
-  adapter content. However, quality trimming is not perfect, and some
-  programs are better at removing some sequences than others. Trimmomatic 
-  did pretty well, though, and its performance is good enough for our workflow.
+    Now that our samples have gone through quality control, they should perform
+    better on the quality tests run by FastQC. 
+    **Rerun the FastQC Analysis on the trimmed sequences** to check if our sequences have been succesfully filtered and trimmed.
+
+    ??? succes "Answer"
+        After trimming and filtering, our overall quality is much higher, 
+        we have a distribution of sequence lengths, and more samples pass 
+        adapter content. However, quality trimming is not perfect, and some
+        programs are better at removing some sequences than others. Trimmomatic 
+        did pretty well, though, and its performance is good enough for our workflow.
 
 
 Now that the Quality Control Process step is done, we can move on to the **Taxoxomic assignement of our samples**.   

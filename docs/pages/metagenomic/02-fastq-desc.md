@@ -132,10 +132,10 @@ very poor (`#` = a quality score of 2).
 
 ## Assessing read quality using FASTqe
  
- This symbol can be hard to interpet, that's why we are going to use our first tool to have a better understanding of the data: fastqE.
+ This symbol can be hard to interpret, that's why we are going to use our first tool to have a better understanding of the data: fastqE.
  FastQE turns ASCII characters into emojis that are easy to interpret.
 
- We are going to use a Bioinformatic tool named Galaxy.
+ We are going to use a Bioinformatic tool named **Galaxy**.
 
  
 

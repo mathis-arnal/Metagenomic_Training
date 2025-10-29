@@ -112,7 +112,7 @@ Your "History" is in the panel at the right. It is a record of the actions you h
     4. Paste in the fastq.gz file from the JC1A sample:
 
     ```
-    JC1A.fastq.gz
+    JC1A_R1.fastqsanger.gz
     ```
 
     5. Click **Start**
@@ -143,7 +143,7 @@ Let's look at the quality of the reads in this file.
 
 1. Type **FastQE** in the tools panel search box (top)
 2. Click the tool (**FASTQE** visualize fastqfiles with emoji's)
-![fastqe click on the tool]( ../fig/galaxy/fastqe-click.png){:width="620px"}
+![fastqe click on the tool]( ../fig/galaxy/fastqe-click.png)
 The tool will be displayed in the central Galaxy panel.
 
 3. Select the following parameters:
@@ -163,17 +163,38 @@ We will now look at the output dataset called *FastQE on data 1*.
 
 !!! example "View results"
     * Once it's green, click the 👁️ (eye) icon next to the "Webpage" output dataset.
-
+    ![fastqe-view]( ../fig/galaxy/fastqe-view.png){:width="620px"}
+    
     The information is displayed in the central panel
+    ![fastqe-report]( ../fig/galaxy/fastqe-report.png){:width="620px"}
 
-    !
+
+!!! exercice "Best and worst Quality"
+
+    What is the best and worst quality for the mean ?
+    What is the best and worst quality for the min ?
+    What is the best and worst quality for the max ?
+    Look at the scale displayed below : 
+
+    ![fastqe-scale](../fig/galaxy/fastqe-scale.png)
+    
+    ??? sucess "Answer"
+
+        - For the max: the worst is 36 (😜) and the best is 40 (😎)    
+        - For the min: the worst is 2(👺) and the best is 24 (😊) 
+        - For the mean: the worst is 24(😊) and the best is 38(😁) 
 
 
 ## Share your history
 
 !!! example "Share your history"
     Imagine you had a problem in your analysis and want to ask for help.
+
+    ![history-share](../fig/galaxy/history-share.png)
+
     Try to create a link for your history and share it with yourself.
+
+    ![history-share-panel](../fig/galaxy/history-share-panel.png)
 
 ## Convert your analysis history into a workflow
 
@@ -182,41 +203,46 @@ Galaxy records every tool you run and the parameters used. You can convert this 
 !!! example "Extract workflow"
     1. Clean up your history: remove any failed (red) jobs
     2. Click (**History options**) → **Extract workflow**
+
+    ![extract-workflow](../fig/galaxy/extract-workflow.png)
+
     3. Select the steps to include
-    4. Replace the workflow name (e.g., `QC and filtering`)
+    4. Replace the workflow name (e.g., `FASTQ Emoji Workflow`)
     5. Rename the workflow input (e.g., `FASTQ reads`)
+
+    ![workflow-rename](../fig/galaxy/workflow-rename.png)
+
     6. Click **Create Workflow**
 
 ## Create a new history
 
+Now, let's create a new history for our next analysis, which will be the Quality Checking.
+We will name the new history according to the tool we will be using, here "FASTQC".
+
 !!! example "New history"
     1. Create a new history
-    2. Rename it, e.g., "Next Analysis"
+    2. Rename it, e.g., "FASTQC"
+
+    ![new_history-fastqc.png](../fig/galaxy/new_history-fastqc.png)
 
 This new history has no datasets yet.
 
-## Look at multiple histories
+## Copy the previous dataset in the new history
+
+We want to do the quality checking on the data from our metagenomic analysis, the sample JC1A and JP4D from the Cuatro Ciénegas Basin.
+Because we already uploaded the forward reads form JC1A (JC1A_R1), ze are going to copy the data from our first history "Galaxy Tutorial, to the history "FASTQC".
 
 !!! example "View histories in History Multiview"
     1. Open **History Multiview** in the activity bar
     2. Or click **Show Histories side-by-side**
-    3. Copy a dataset into your new history by dragging it from "My Analysis" to "Next Analysis"
+    3. Copy a dataset into your new history by dragging it from "Galaxy Tutorial" to "FASTQC"
+    ![history_multiview_tutorial.png](../fig/galaxy/history_multiview_tutorial.png)
     4. Return to the main Galaxy window
 
 !!! comment
     This is not the only way to view your histories in Galaxy:
     1. An exhaustive list is available in the **My Histories** tab
     2. You can quickly switch to another history using **History options**
-
-## Run workflow in the new history
-
-!!! example "Run workflow"
-    1. Click the **Workflows** activity in the activity bar
-    2. Select your newly created workflow
-    3. Configure the input (e.g., select the FASTQ dataset)
-    4. Click **Run Workflow**
-
-You should see a message that the workflow was successfully invoked and jobs will start running.
 
 # Conclusion
 
@@ -226,7 +252,6 @@ Well done! You have completed the short introduction to Galaxy:
 * Uploaded a file
 * Used a tool
 * Viewed results
-* Ran a workflow
 
 !!! Success "Key Points"
     - The Galaxy interface has an activity bar on the left, a tool (or other activated)
